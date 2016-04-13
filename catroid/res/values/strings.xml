@@ -597,7 +597,8 @@
 
     <string name="brick_loop_end">End of loop</string>
     <string name="brick_if_begin">If</string>
-    <string name="brick_if_begin_second_part">is true then</string>
+    <string name="brick_if_begin_second_part">is true then ... else</string>
+    <string name="brick_if_then_begin_second_part">is true then</string>
     <string name="brick_if_else">Else</string>
     <string name="brick_if_end">End If</string>
     <string name="brick_broadcast_invalid_symbol">"Message reserved for:\n\"When physical collision between\"-Brick\nPlease try again!"</string>

@@ -547,6 +547,7 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 		for (int position : adapter.getCheckedProjects()) {
 			projectToEdit = (ProjectData) getListView().getItemAtPosition(position - numDeleted);
 			deleteProject(projectToEdit);
+			adapter.remove(projectToEdit);
 			numDeleted++;
 		}
 
@@ -558,7 +559,7 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 					projectList.get(0).projectName);
 		}
 
-		initAdapter();
+		//initAdapter();
 	}
 
 	private void clearCheckedProjectsAndEnableButtons() {
