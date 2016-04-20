@@ -92,6 +92,7 @@ import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
 import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
+import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
@@ -112,6 +113,7 @@ import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.content.bricks.WaitUntilBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
@@ -119,6 +121,7 @@ import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
+import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
@@ -207,7 +210,11 @@ public class CategoryBricksFactory {
 		defaultIf.setLeftChild(new FormulaElement(ElementType.NUMBER, "1", null));
 		defaultIf.setRightChild(new FormulaElement(ElementType.NUMBER, "2", null));
 		controlBrickList.add(new IfLogicBeginBrick(new Formula(defaultIf)));
+		controlBrickList.add(new WaitUntilBrick(new Formula(defaultIf)));
 		controlBrickList.add(new RepeatBrick(BrickValues.REPEAT));
+
+		FormulaElement defaultRep = new FormulaElement(ElementType.FUNCTION, Functions.TRUE.toString(), null);
+		controlBrickList.add(new RepeatUntilBrick(new Formula(defaultRep)));
 
 		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 			controlBrickList.add(new PhiroIfLogicBeginBrick());

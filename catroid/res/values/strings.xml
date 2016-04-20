@@ -589,6 +589,8 @@
     <string name="brick_note">Note</string>
     <string name="brick_forever">Forever</string>
     <string name="brick_repeat">Repeat</string>
+    <string name="brick_repeat_until">Repeat until</string>
+
 
     <plurals name="time_plural">
         <item quantity="one">time</item>
@@ -1140,6 +1142,8 @@
     <string name="choose_camera_back">back</string>
     <string name="error_flash_front_camera">"The flash can be used with the back camera only. Please add a \"Use
         camera\" brick and change to your device\'s back camera. "</string>
+    <string name="brick_wait_until">Wait until</string>
+    <string name="brick_wait_until_second_part">is true</string>
     <!-- -->
 
     <!-- Rating Dialog -->

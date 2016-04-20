@@ -109,6 +109,7 @@ import org.catrobat.catroid.content.actions.TurnRightAction;
 import org.catrobat.catroid.content.actions.UserBrickAction;
 import org.catrobat.catroid.content.actions.VibrateAction;
 import org.catrobat.catroid.content.actions.WaitAction;
+import org.catrobat.catroid.content.actions.WaitUntilAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
@@ -538,6 +539,13 @@ public class ActionFactory extends Actions {
 		action.setRepeatCount(count);
 		action.setAction(repeatedAction);
 		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createWaitUntilAction(Sprite sprite, Formula condition) {
+		WaitUntilAction action = Actions.action(WaitUntilAction.class);
+		action.setSprite(sprite);
+		action.setCondition(condition);
 		return action;
 	}
 
