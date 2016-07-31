@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.content;
 
+import android.util.Log;
+
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -36,11 +38,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.stage.StageActivity;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class Look extends Image {
 	private static final float DEGREE_UI_OFFSET = 90.0f;
@@ -254,6 +259,20 @@ public class Look extends Image {
 	public void setLookData(LookData lookData) {
 		this.lookData = lookData;
 		imageChanged = true;
+
+		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).look.equals(this)) {
+			Log.e("Look", "Background switches to " + lookData.getLookName());
+			fireBackgroundChangedEvent(lookData);
+		}
+	}
+
+	private void fireBackgroundChangedEvent(LookData lookData) {
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList(); // TODO: change
+		// to spriteList from StageActivity to include cloned object after clone feature has been merged to develop
+
+		for (Sprite sprite : spriteList) {
+			sprite.createBackgroundChangedAction(lookData);
+		}
 	}
 
 	public boolean getAllActionsAreFinished() {

@@ -665,6 +665,14 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
+		Log.e(TAG, "HandleAddButton");
+		if (ProjectManager.getInstance().getCurrentSpritePosition() == 0) {
+			TextView emptyViewHeading = (TextView) activity.findViewById(R.id.fragment_look_text_heading);
+			Log.e(TAG, "HandleAddButton set Text" + activity.getActionBar().getTitle());
+			activity.getActionBar().setTitle(R.string.background);
+			emptyViewHeading.setTextSize(TypedValue.COMPLEX_UNIT_SP, 60.0f);
+			emptyViewHeading.setText(R.string.backgrounds);
+		}
 		NewLookDialog dialog = NewLookDialog.newInstance();
 		dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
 			@Override
