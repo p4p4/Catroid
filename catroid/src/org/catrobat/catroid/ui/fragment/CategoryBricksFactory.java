@@ -150,6 +150,8 @@ public class CategoryBricksFactory {
 		List<Brick> toReturn = new ArrayList<>();
 		if (category.equals(context.getString(R.string.category_control))) {
 			tempList = setupControlCategoryList(context);
+		} else if (category.equals(context.getString(R.string.category_event))) {
+			tempList = setupEventCategoryList(context);
 		} else if (category.equals(context.getString(R.string.category_motion))) {
 			tempList = setupMotionCategoryList(sprite, context);
 		} else if (category.equals(context.getString(R.string.category_sound))) {
@@ -181,40 +183,50 @@ public class CategoryBricksFactory {
 	}
 
 	private List<Brick> setupControlCategoryList(Context context) {
+		FormulaElement defaultCondition = new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.SMALLER_THAN.toString(), null);
+		defaultCondition.setLeftChild(new FormulaElement(ElementType.NUMBER, "1", null));
+		defaultCondition.setRightChild(new FormulaElement(ElementType.NUMBER, "2", null));
+
 		List<Brick> controlBrickList = new ArrayList<>();
-		controlBrickList.add(new WhenStartedBrick(null));
-		controlBrickList.add(new WhenBrick(null));
-		controlBrickList.add(new WhenTouchDownBrick());
 		controlBrickList.add(new WaitBrick(BrickValues.WAIT));
-
-		final String broadcastMessage = MessageContainer.getFirst(context);
-
-		controlBrickList.add(new BroadcastReceiverBrick(broadcastMessage));
-		controlBrickList.add(new BroadcastBrick(broadcastMessage));
-		controlBrickList.add(new BroadcastWaitBrick(broadcastMessage));
-
-		controlBrickList.add(new CollisionReceiverBrick("object"));
-
-		controlBrickList.add(new NoteBrick(context.getString(R.string.brick_note_default_value)));
+		controlBrickList.add(new WaitUntilBrick(new Formula(defaultCondition)));
 		controlBrickList.add(new ForeverBrick());
-		FormulaElement defaultIf = new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.SMALLER_THAN.toString(), null);
-		defaultIf.setLeftChild(new FormulaElement(ElementType.NUMBER, "1", null));
-		defaultIf.setRightChild(new FormulaElement(ElementType.NUMBER, "2", null));
-		controlBrickList.add(new IfLogicBeginBrick(new Formula(defaultIf)));
-		controlBrickList.add(new IfThenLogicBeginBrick(new Formula(defaultIf)));
-		controlBrickList.add(new WaitUntilBrick(new Formula(defaultIf)));
 		controlBrickList.add(new RepeatBrick(BrickValues.REPEAT));
-		controlBrickList.add(new RepeatUntilBrick(new Formula(defaultIf)));
+		controlBrickList.add(new RepeatUntilBrick(new Formula(defaultCondition)));
+		controlBrickList.add(new IfLogicBeginBrick(new Formula(defaultCondition)));
+		controlBrickList.add(new IfThenLogicBeginBrick(new Formula(defaultCondition)));
+		controlBrickList.add(new NoteBrick(context.getString(R.string.brick_note_default_value)));
 
 		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 			controlBrickList.add(new PhiroIfLogicBeginBrick());
 		}
 
-		if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
-			controlBrickList.add(new WhenNfcBrick());
+		if (SettingsActivity.isRaspiSharedPreferenceEnabled(context)) {
+			controlBrickList.add(new RaspiIfLogicBeginBrick(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER));
 		}
 
 		return controlBrickList;
+	}
+
+	private List<Brick> setupEventCategoryList(Context context) {
+		List<Brick> eventBrickList = new ArrayList<>();
+
+		eventBrickList.add(new WhenStartedBrick(null));
+		eventBrickList.add(new WhenBrick(null));
+		eventBrickList.add(new WhenTouchDownBrick());
+
+		final String broadcastMessage = MessageContainer.getFirst(context);
+		eventBrickList.add(new BroadcastReceiverBrick(broadcastMessage));
+		eventBrickList.add(new BroadcastBrick(broadcastMessage));
+		eventBrickList.add(new BroadcastWaitBrick(broadcastMessage));
+
+		eventBrickList.add(new CollisionReceiverBrick("object"));
+
+		if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
+			eventBrickList.add(new WhenNfcBrick());
+		}
+
+		return eventBrickList;
 	}
 
 	private List<Brick> setupUserBricksCategoryList() {
